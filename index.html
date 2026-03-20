@@ -39,7 +39,7 @@ body{
   text-align:center;
   box-shadow:0 15px 40px rgba(0,0,0,.25);
   position:relative;
-  z-index:10; /* ✅ 클릭 안 막히게 */
+  z-index:10;
 }
 
 h1{
@@ -53,7 +53,7 @@ h1{
   width:280px;
   height:56px;
   margin:0 auto;
-  touch-action: manipulation; /* ✅ 모바일 탭 반응 개선 */
+  touch-action: manipulation;
 }
 
 .btn{
@@ -66,8 +66,8 @@ h1{
   font-size:16px;
   cursor:pointer;
   user-select:none;
-  z-index:20;            /* ✅ 클릭 안 막히게 */
-  pointer-events:auto;   /* ✅ 클릭 안 막히게 */
+  z-index:20;
+  pointer-events:auto;
   transition: transform .15s ease;
 }
 
@@ -121,15 +121,19 @@ h1{
   const result = document.getElementById("result");
 
   if (!yesBtn || !noBtn || !btnArea) {
-    // 요소가 없으면(복붙 실수) 그냥 종료
     return;
   }
 
   yesBtn.addEventListener("click", () => {
     document.body.style.backgroundImage =
       'linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url("02.jpg")';
+
     if (result) result.style.display = "block";
     createHearts();
+
+    setTimeout(() => {
+      window.location.href = "https://tickets.interpark.com/contents/search?keyword=%EC%B5%9C%ED%98%84%EC%9A%B0";
+    }, 1200);
   });
 
   function createHearts(){
@@ -157,16 +161,13 @@ h1{
     noBtn.style.top  = y + "px";
   }
 
-  // PC: 올리면 도망
   noBtn.addEventListener("mouseenter", moveNo);
 
-  // 모바일: 누르려는 순간 도망
   noBtn.addEventListener("touchstart", (e) => {
     e.preventDefault();
     moveNo();
   }, { passive:false });
 
-  // 클릭도 방지
   noBtn.addEventListener("click", (e) => {
     e.preventDefault();
     moveNo();
